@@ -10,7 +10,7 @@ describe("TokenMaster", () => {
 
     beforeEach(async () => {
         [deployer, buyer] = await ethers.getSigners()
-        
+
         const TokenMaster = await ethers.getContractFactory("TokenMaster")
         tokenMaster = await TokenMaster.deploy(NAME, SYMBOL)
 
@@ -24,6 +24,10 @@ describe("TokenMaster", () => {
         it("Sets the symbol", async () => {
             expect(await tokenMaster.symbol()).to.equal(SYMBOL)
 
+        })
+
+        it("Sets the owner", async () => {
+            expect(await tokenMaster.owner()).to.equal(deployer.address)
         })
     })
 })
