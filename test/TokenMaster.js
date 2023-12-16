@@ -1,8 +1,17 @@
 const { expect } = require('chai')
 const { ethers } = require('hardhat')
+const { utils } = ethers
 
 const NAME = "TokenMaster"
 const SYMBOL = "TM"
+
+const OCCASION_NAME ='ETH Nairobi'
+const OCCASION_COST = ethers.utils.parseUnits('1', 'ether')
+const OCCASION_MAX_TICKETS = 100
+const OCCASION_DATE = "Apr 27"
+const OCCASION_TIME = "10:00AM CAT"
+const OCCASION_LOCATION = "Nairobi, Kenya"
+
 
 describe("TokenMaster", () => {
     let tokenMaster
@@ -14,9 +23,20 @@ describe("TokenMaster", () => {
         const TokenMaster = await ethers.getContractFactory("TokenMaster")
         tokenMaster = await TokenMaster.deploy(NAME, SYMBOL)
 
+        const transaction = await tokenMaster.connect(deployer).list(
+            OCCASION_NAME,
+            OCCASION_COST,
+            OCCASION_MAX_TICKETS,
+            OCCASION_DATE,
+            OCCASION_TIME,
+            OCCASION_LOCATION
+
+        )
+        
+        await transaction.wait()
     })
 
-    describe("Deployement", () => {
+    describe("Deployment", () => {
         it("Sets the name", async () => {
             expect(await tokenMaster.name()).to.equal(NAME)
         })
@@ -30,4 +50,16 @@ describe("TokenMaster", () => {
             expect(await tokenMaster.owner()).to.equal(deployer.address)
         })
     })
+
+    describe("Deployment", () => {
+
+    })
+
+    describe("Occasions", () => {
+        it('Updates occasions count', async () => {
+            const totalOccasions = await tokenMaster.totalOccasions();
+            expect(totalOccasions).to.be.equal(1)
+        })
+    })
+    
 })
