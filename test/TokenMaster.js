@@ -62,4 +62,7 @@ describe("TokenMaster", () => {
         })
     })
     
+    describe("Paid tickets", () => {
+         
+    })
 })
