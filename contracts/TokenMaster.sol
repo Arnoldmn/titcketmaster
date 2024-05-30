@@ -1,11 +1,11 @@
-// SPDX-License-Identifier: MIT 
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import  "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract TokenMaster is ERC721 {
     address public owner;
-    uint256 public totalOcasions;
+    uint256 public totalOccasions;
 
     struct Occasion {
         uint256 id;
@@ -20,11 +20,10 @@ contract TokenMaster is ERC721 {
 
     mapping(uint256 => Occasion) occasions;
 
-    
     constructor(
-        string memory _name, 
-        string memory _symbol) ERC721(_name, _symbol) {
-        
+        string memory _name,
+        string memory _symbol
+    ) ERC721(_name, _symbol) {
         owner = msg.sender;
     }
 
@@ -34,18 +33,18 @@ contract TokenMaster is ERC721 {
         uint256 _maxTickets,
         string memory _date,
         string memory _time,
-        string memory _location) public {
-
-            totalOcasions++;
-          occasions[totalOcasions] = Occasion(
-                totalOcasions,
-                 _name, 
-                 _cost, 
-                 _maxTickets,
-                 _maxTickets,
-                 _date,
-                 _time,
-                 _location
-                 );
+        string memory _location
+    ) public {
+        totalOccasions++;
+        occasions[totalOccasions] = Occasion(
+            totalOccasions,
+            _name,
+            _cost,
+            _maxTickets,
+            _maxTickets,
+            _date,
+            _time,
+            _location
+        );
     }
 }
