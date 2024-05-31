@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 contract TokenMaster is ERC721 {
     address public owner;
     uint256 public totalOccasions;
+    uint256 public totalSupply;
 
     struct Occasion {
         uint256 id;
@@ -19,6 +20,7 @@ contract TokenMaster is ERC721 {
     }
 
     mapping(uint256 => Occasion) occasions;
+    mapping(uint256 => mapping(uint256 => address)) public seatTaken; 
 
     modifier onlyOwner() {
         require(msg.sender == owner);
@@ -54,6 +56,13 @@ contract TokenMaster is ERC721 {
         );
     }
 
+    function mint(uint256 _id,
+    uint256 _seat) public payable{
+
+        occasions[_id].tickets -= 1;
+        totalSupply++;
+        _safeMint(msg.sender, totalSupply);
+    }
     function getOccasion(uint256 _id) public view returns (Occasion memory) {
         return occasions[_id];
     }
