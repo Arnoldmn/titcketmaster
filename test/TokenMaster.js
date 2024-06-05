@@ -5,7 +5,7 @@ const { utils } = ethers
 const NAME = "TokenMaster"
 const SYMBOL = "TM"
 
-const OCCASION_NAME ='ETH Nairobi'
+const OCCASION_NAME = 'ETH Nairobi'
 const OCCASION_COST = ethers.parseUnits('1', 'ether')
 const OCCASION_MAX_TICKETS = 100
 const OCCASION_DATE = "Apr 27"
@@ -32,7 +32,7 @@ describe("TokenMaster", () => {
             OCCASION_LOCATION
 
         )
-        
+
         await transaction.wait()
     })
 
@@ -61,7 +61,7 @@ describe("TokenMaster", () => {
             expect(totalOccasions).to.be.equal(1)
         })
 
-        it("Returns occasions attributes", async () =>{
+        it("Returns occasions attributes", async () => {
             const occasion = await tokenMaster.getOccasion(1)
             expect(occasion.id).to.be.equal(1)
             expect(occasion.name).to.be.equal(OCCASION_NAME)
@@ -72,8 +72,24 @@ describe("TokenMaster", () => {
             expect(occasion.location).to.be.equal(OCCASION_LOCATION)
         })
     })
-    
+
     describe("Paid tickets", () => {
-         
+
+    })
+
+    describe("Minting", () => {
+        const ID = 1
+        const SEAT = 50
+        const AMOUNT = ethers.parseUnits('1', 'ether')
+
+        beforeEach(async () => {
+            const transaction = await tokenMaster.connect(buyer).mint(ID, SEAT, { value: AMOUNT })
+            await transaction.wait()
+        })
+
+        it("updates ticket count", async () => {
+            const occasion = await tokenMaster.getOccasion(1)
+            expect(occasion.tickets).to.be.equal(OCCASION_MAX_TICKETS - 1)
+        })
     })
 })
