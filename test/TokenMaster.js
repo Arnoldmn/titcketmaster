@@ -1,6 +1,5 @@
 const { expect } = require('chai')
-const { ethers } = require('hardhat')
-const { utils } = ethers
+const { ethers, waffle } = require('hardhat')
 
 const NAME = "TokenMaster"
 const SYMBOL = "TM"
@@ -109,7 +108,8 @@ describe("TokenMaster", () => {
         })
 
         it("Updates contract Balance", async () => {
-            const balance = await ethers.provider.getBalance(tokenMaster.address)
+           // const provider = waffle.provider;
+            const balance = await ethers.providers.getBalance(tokenMaster.address)
             expect(balance).to.equal(AMOUNT)
         })
     })

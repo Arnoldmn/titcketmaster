@@ -19,13 +19,13 @@ contract TokenMaster is ERC721 {
         string location;
     }
 
-    mapping(uint256 => Occasion) occasions;
+    mapping(uint256 => Occasion) public occasions;
     mapping(uint256 => mapping(address => bool)) public hasBought;
     mapping(uint256 => mapping(uint256 => address)) public seatTaken;
-    mapping(uint256 => uint256[]) seatsTaken;
+    mapping(uint256 => uint256[]) public seatsTaken;
 
     modifier onlyOwner() {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "Not the owner");
         _;
     }
 
@@ -58,7 +58,10 @@ contract TokenMaster is ERC721 {
     }
 
     function mint(uint256 _id, uint256 _seat) public payable {
-        
+        require(msg.value >= occasions[_id].cost, "insufficient funds");
+        require(occasions[_id].tickets > 0, "No tickets left");
+        require(seatTaken[_id][_seat] == address(0), "Seat already taken");
+
         occasions[_id].tickets -= 1;
 
         hasBought[_id][msg.sender] = true;
