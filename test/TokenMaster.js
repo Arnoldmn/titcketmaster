@@ -108,8 +108,7 @@ describe("TokenMaster", () => {
         })
 
         it("Updates contract Balance", async () => {
-           // const provider = waffle.provider;
-            const balance = await ethers.providers.getBalance(tokenMaster.address)
+            const balance = await ethers.provider.getBalance(tokenMaster.address)
             expect(balance).to.equal(AMOUNT)
         })
     })
