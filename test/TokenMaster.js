@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-const { ethers, waffle } = require('hardhat')
+const { ethers, eth } = require('hardhat')
 
 const NAME = "TokenMaster"
 const SYMBOL = "TM"
@@ -91,7 +91,7 @@ describe("TokenMaster", () => {
             expect(occasion.tickets).to.be.equal(OCCASION_MAX_TICKETS - 1)
         })
 
-        it("Updates buying status", async () =>{
+        it("Updates buying status", async () => {
             const status = await tokenMaster.hasBought(ID, buyer.address)
             expect(status).to.equal(true)
         })
@@ -107,9 +107,9 @@ describe("TokenMaster", () => {
             expect(seats[0]).to.equal(SEAT)
         })
 
-        it("Updates contract Balance", async () => {
+        it('Updates the contract balance', async () => {
             const balance = await ethers.provider.getBalance(tokenMaster.address)
-            expect(balance).to.equal(AMOUNT)
+            expect(balance).to.be.equal(AMOUNT)
         })
     })
 })
