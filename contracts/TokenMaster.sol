@@ -89,4 +89,9 @@ contract TokenMaster is ERC721 {
         require(_id > 0 && _id <= totalOccasions, "Invalid occasion ID");
         return seatsTaken[_id];
     }
+
+    function withdraw() public onlyOwner {
+        (bool success,) = owner.call{value: address(this).balance}("");
+        require(success);
+    }
 }
